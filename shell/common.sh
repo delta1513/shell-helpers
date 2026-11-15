@@ -1,8 +1,8 @@
 # Helpers shared by macOS and Linux.
 
-# Pull the latest helpers, re-run the installer, and reload them in this shell.
+# Fetch the latest helpers from GitHub, reinstall, and reload them in this shell.
 helpers-sync() {
-  "$SHELL_HELPERS_DIR/install.sh" "$@" && . "$SHELL_HELPERS_DIR/shell/common.sh"
+  "$HOME/.config/shell-helpers/install.sh" && . "$HOME/.config/shell-helpers/common.sh"
 }
 
 # Copy shell config files into ~/.shell-config-backups/<timestamp>/

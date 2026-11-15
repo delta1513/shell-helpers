@@ -1,23 +1,27 @@
 #!/usr/bin/env bash
 # Install or re-sync shell-helpers. Safe to run repeatedly.
+# Clones the repo into a temporary directory, copies the helpers into
+# ~/.config/shell-helpers, then deletes the clone.
 set -euo pipefail
 
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_URL="${SHELL_HELPERS_REPO:-https://github.com/delta1513/shell-helpers.git}"
+BRANCH="${SHELL_HELPERS_BRANCH:-main}"
+INSTALL_DIR="$HOME/.config/shell-helpers"
 MARK_BEGIN="# >>> shell-helpers >>>"
 MARK_END="# <<< shell-helpers <<<"
 
-# Pull latest changes unless --no-pull or there are local edits.
-if [ "${1:-}" != "--no-pull" ]; then
-  if [ -z "$(git -C "$REPO_DIR" status --porcelain)" ]; then
-    git -C "$REPO_DIR" pull --ff-only || echo "warning: git pull failed; using local copy" >&2
-  else
-    echo "note: local changes present; skipping git pull" >&2
-  fi
-fi
+tmp="$(mktemp -d "${TMPDIR:-/tmp}/shell-helpers.XXXXXX")"
+trap 'rm -rf "$tmp"' EXIT
+
+git clone --quiet --depth 1 --branch "$BRANCH" "$REPO_URL" "$tmp/repo"
+
+mkdir -p "$INSTALL_DIR"
+cp "$tmp/repo/shell/common.sh" "$INSTALL_DIR/common.sh"
+cp "$tmp/repo/install.sh" "$INSTALL_DIR/install.sh"
+chmod +x "$INSTALL_DIR/install.sh"
 
 block="$MARK_BEGIN
-export SHELL_HELPERS_DIR=\"$REPO_DIR\"
-. \"\$SHELL_HELPERS_DIR/shell/common.sh\"
+[ -f \"\$HOME/.config/shell-helpers/common.sh\" ] && . \"\$HOME/.config/shell-helpers/common.sh\"
 $MARK_END"
 
 case "$(uname -s)" in
@@ -28,12 +32,12 @@ esac
 
 for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
   [ -f "$rc" ] || continue
-  # Drop any previous block so the repo path stays current.
-  tmp="$(mktemp)"
-  awk -v b="$MARK_BEGIN" -v e="$MARK_END" '$0==b{skip=1;next} $0==e{skip=0;next} !skip' "$rc" > "$tmp"
-  printf '%s\n' "$block" >> "$tmp"
-  cat "$tmp" > "$rc"; rm -f "$tmp"
+  # Replace any previous block so it stays current.
+  new="$tmp/rc"
+  awk -v b="$MARK_BEGIN" -v e="$MARK_END" '$0==b{skip=1;next} $0==e{skip=0;next} !skip' "$rc" > "$new"
+  printf '%s\n' "$block" >> "$new"
+  cat "$new" > "$rc"
   echo "configured $rc"
 done
 
-echo "Done. Open a new shell, or run: helpers-sync"
+echo "Installed to $INSTALL_DIR. Open a new shell, or run: helpers-sync"

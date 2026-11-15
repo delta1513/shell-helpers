@@ -5,14 +5,12 @@ My aliases and functions for macOS and Linux (bash and zsh).
 ## Setup
 
 ```bash
-git clone git@github.com:delta1513/shell-helpers.git ~/shell-helpers
+curl -fsSL https://raw.githubusercontent.com/delta1513/shell-helpers/main/install.sh | bash
 ```
 
-```bash
-~/shell-helpers/install.sh
-```
+Open a new shell. From then on, run `helpers-sync` to fetch the latest helpers and reload them.
 
-Open a new shell. From then on, run `helpers-sync` to pull the latest helpers and reload them (`--no-pull` skips the pull).
+The installer clones the repo into a temporary directory, copies the helpers to `~/.config/shell-helpers/`, and deletes the clone. Set `SHELL_HELPERS_REPO` (e.g. an SSH URL) or `SHELL_HELPERS_BRANCH` to override the source.
 
 ## Helpers
 
@@ -25,4 +23,4 @@ Open a new shell. From then on, run `helpers-sync` to pull the latest helpers an
 ## Layout
 
 - `shell/common.sh`: all aliases and functions
-- `install.sh`: idempotent installer; adds one marked block to `~/.bashrc` / `~/.zshrc` that sources `common.sh`
+- `install.sh`: idempotent installer; adds one marked block to `~/.bashrc` / `~/.zshrc` that sources `~/.config/shell-helpers/common.sh`
