@@ -2,12 +2,13 @@
 
 # Pull the latest helpers, re-run the installer, and reload them in this shell.
 helpers-sync() {
-  "$SHELL_HELPERS_DIR/install.sh" "$@" && . "$SHELL_HELPERS_DIR/shell/init.sh"
+  "$SHELL_HELPERS_DIR/install.sh" "$@" && . "$SHELL_HELPERS_DIR/shell/common.sh"
 }
 
 # Claude Code
 alias yolo-sonnet='claude --dangerously-skip-permissions --model sonnet'
 alias yolo-opus='claude --dangerously-skip-permissions --model opus'
+alias yolo-fable='claude --dangerously-skip-permissions --model fable'
 
 # SSH
 alias ssh-git='ssh-add ~/.ssh/id_rsa'

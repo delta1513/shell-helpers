@@ -24,7 +24,5 @@ This pulls the latest changes (skipped if you have local edits), re-runs the ins
 
 ## Layout
 
-- `shell/common.sh`: helpers for every machine
-- `shell/macos.sh`, `shell/linux.sh`: OS-specific helpers
-- `bin/`: standalone scripts, symlinked into `~/.local/bin`
-- `install.sh`: idempotent installer; adds one marked block to `~/.bashrc` / `~/.zshrc`
+- `shell/common.sh`: all aliases and functions (bash and zsh, macOS and Linux)
+- `install.sh`: idempotent installer; adds one marked block to `~/.bashrc` / `~/.zshrc` that sources `common.sh`
