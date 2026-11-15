@@ -19,6 +19,8 @@ The installer clones the repo into a temporary directory, copies the helpers to 
 - `yolo-sonnet`, `yolo-opus`, `yolo-fable`: Claude Code with permissions skipped
 - `ssh-git`: add `~/.ssh/id_rsa` to the SSH agent
 - `wget-real`: `wget` with a browser user agent
+- `dl <url>`: download to a random filename, keeping the extension
+- `MAKEFLAGS=-j<half your cores>` is exported so `make` builds in parallel
 
 ## Layout
 
