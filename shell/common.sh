@@ -30,6 +30,10 @@ alias yolo-haiku='claude --model haiku --dangerously-skip-permissions'
 alias yolo-opus='claude --dangerously-skip-permissions --model opus'
 alias yolo-fable='claude --dangerously-skip-permissions --model fable'
 
+# yt-dlp audio downloads
+alias mp3yt='yt-dlp -x --audio-format mp3 --yes-playlist'
+alias flacyt='yt-dlp -x --audio-format flac --yes-playlist'
+
 # SSH
 alias ssh-git='ssh-add ~/.ssh/id_rsa'
 
