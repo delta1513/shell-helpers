@@ -5,6 +5,20 @@ helpers-sync() {
   "$SHELL_HELPERS_DIR/install.sh" "$@" && . "$SHELL_HELPERS_DIR/shell/common.sh"
 }
 
+# Copy shell config files into ~/.shell-config-backups/<timestamp>/
+backup-shell-config() {
+  dest="$HOME/.shell-config-backups/$(date +%Y%m%d-%H%M%S)"
+  mkdir -p "$dest" || return 1
+  copied=0
+  for f in .bashrc .bash_profile .bash_login .bash_logout .bash_aliases .profile \
+           .zshrc .zprofile .zshenv .zlogin .zlogout .inputrc; do
+    if [ -f "$HOME/$f" ]; then
+      cp -p "$HOME/$f" "$dest/" && copied=$((copied + 1))
+    fi
+  done
+  echo "Backed up $copied file(s) to $dest"
+}
+
 # Claude Code
 alias yolo-sonnet='claude --dangerously-skip-permissions --model sonnet'
 alias yolo-opus='claude --dangerously-skip-permissions --model opus'
