@@ -26,6 +26,7 @@ backup-shell-config() {
 
 # Claude Code
 alias yolo-sonnet='claude --dangerously-skip-permissions --model sonnet'
+alias yolo-haiku='claude --model haiku --dangerously-skip-permissions'
 alias yolo-opus='claude --dangerously-skip-permissions --model opus'
 alias yolo-fable='claude --dangerously-skip-permissions --model fable'
 
