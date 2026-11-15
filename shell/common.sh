@@ -37,6 +37,21 @@ alias flacyt='yt-dlp -x --audio-format flac --yes-playlist'
 # SSH
 alias ssh-git='ssh-add ~/.ssh/id_rsa'
 
+# Add every private key in ~/.ssh to the ssh-agent for 8 hours (and the macOS keychain).
+ssh-all() {
+  for _sh_pub in "$HOME"/.ssh/*.pub; do
+    [ -f "$_sh_pub" ] || continue
+    _sh_key=${_sh_pub%.pub}
+    [ -f "$_sh_key" ] || continue
+    if [ "$(uname)" = "Darwin" ]; then
+      ssh-add -t 8h --apple-use-keychain "$_sh_key"
+    else
+      ssh-add -t 8h "$_sh_key"
+    fi
+  done
+  unset _sh_pub _sh_key
+}
+
 # wget with a browser-like user agent
 alias wget-real='wget --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" --header="Accept-Language: en-US,en;q=0.9"'
 
