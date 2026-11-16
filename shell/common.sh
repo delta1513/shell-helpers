@@ -62,3 +62,18 @@ dl() {
   name="$(LC_ALL=C tr -dc A-Za-z0-9 < /dev/urandom | head -c 10).$ext"
   wget -O "$name" "$1" && echo "Saved as $name"
 }
+
+# flick: send a file over the LAN (receiver listens for a UDP broadcast, then pulls over TCP)
+flick-receive() {
+  local a=$(socat -u UDP-RECV:19123,null-eof -)
+  socat -u TCP:"$a" CREATE:"$1"
+}
+
+flick-send() {
+  local p=$((RANDOM % 10000 + 40000)) i b
+  timeout 5 socat -u FILE:"$1" TCP-LISTEN:$p,reuseaddr &
+  read i b <<< "$(ip -o -4 a | awk '/brd (10\.0|192\.168)\./{print $4, $6; exit}')"
+  socat -u - UDP-DATAGRAM:$b:19123,broadcast <<< "${i%/*}:$p"
+  python3 -c "import socket as S;s=S.socket(S.AF_INET,S.SOCK_DGRAM);s.setsockopt(S.SOL_SOCKET,S.SO_BROADCAST,1);s.sendto(b'',('$b',19123))"
+  wait
+}
