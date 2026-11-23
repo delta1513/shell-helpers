@@ -21,6 +21,7 @@ Run `helpers-sync`
 - `helpers-sync`: fetch the latest helpers, reinstall, and reload them.
 - `backup-shell-config`: copy shell rc files into `~/.shell-config-backups/<timestamp>/`.
 - `yolo-sonnet`, `yolo-haiku`, `yolo-opus`, `yolo-fable`: aliases for `claude --dangerously-skip-permissions` with a model.
+- `helper-mcp-aws`: add the AWS Documentation MCP server (`aws-docs`) to Claude Code at user scope.
 - `tf`: alias for `terraform`.
 - `mp3yt`, `flacyt`: yt-dlp audio downloads (mp3 / flac).
 - `ssh-git`: add `~/.ssh/id_rsa` to the ssh-agent.

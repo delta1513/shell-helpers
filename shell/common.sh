@@ -30,6 +30,10 @@ alias yolo-haiku='claude --model haiku --dangerously-skip-permissions'
 alias yolo-opus='claude --dangerously-skip-permissions --model opus'
 alias yolo-fable='claude --dangerously-skip-permissions --model fable'
 
+# Register the AWS Documentation MCP server with Claude Code (user scope).
+# Source: https://awslabs.github.io/mcp/servers/aws-documentation-mcp-server
+alias helper-mcp-aws='claude mcp add --env FASTMCP_LOG_LEVEL=ERROR --env AWS_DOCUMENTATION_PARTITION=aws --env "MCP_USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" --transport stdio --scope user aws-docs -- uvx awslabs.aws-documentation-mcp-server@latest'
+
 # Terraform
 alias tf='terraform'
 
